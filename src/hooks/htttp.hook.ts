@@ -6,7 +6,7 @@ interface HTTPHeaders {
   // interface where you have infinity amount of string: string
   [key: string]: string;
 }
-//type HTTPHeaders = Record<string, string>; - the way how to create it with utility type
+// type HTTPHeaders = Record<string, string>
 
 interface RequestConfig {
   // config for request where everything is optional except of URL

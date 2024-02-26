@@ -7,31 +7,26 @@ import {
 } from "../shared/interfaces/appointment.interface";
 
 const requiredFields = ["id", "date", "name", "service", "phone", "canceled"]; // key fields to check
-console.log(requiredFields.splice(0, -1));
 
 const useAppointmentService = () => {
   const { loadingStatus, request } = useHttp();
 
-  const _apiBase = "http://localhost:3001/appointment";
+  const _apiBase = "http://localhost:3001/appointments";
 
   const getAllAppointments = async (): Promise<IAppointment[]> => {
     // returns promise of arrays with data about client
     const res = await request({ url: _apiBase });
     if (
-      res.every((item: IAppointment) => {
-        // checking every obj we will get in our response array
-        hasRequiredFields(item, requiredFields);
-      })
+      res.every((item: IAppointment) => hasRequiredFields(item, requiredFields)) // checking every obj we will get in our response array
     ) {
       return res;
     } else {
-      throw new Error("Data does not have all the fields");
+      throw new Error("Data doesnt have all the fields");
     }
   };
 
-  const getAllActiveAppointments = async (): Promise<IActiveAppointment[]> => {
-    const base: IAppointment[] = await getAllAppointments();
-
+  const getAllActiveAppointments = async () => {
+    const base = await getAllAppointments();
     const transformed: IActiveAppointment[] = base.map((item) => {
       // removing canceled
       return {
@@ -52,3 +47,5 @@ const useAppointmentService = () => {
     getAllActiveAppointments,
   };
 };
+
+export default useAppointmentService;
