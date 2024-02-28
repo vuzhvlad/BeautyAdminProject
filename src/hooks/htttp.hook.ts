@@ -1,8 +1,7 @@
 import { useState, useCallback } from "react";
 
 type HTTPRequestMethods = "GET" | "POST" | "PATCH" | "DELETE";
-
-interface HTTPHeaders {
+export interface HTTPHeaders {
   // interface where you have infinity amount of string: string
   [key: string]: string;
 }
