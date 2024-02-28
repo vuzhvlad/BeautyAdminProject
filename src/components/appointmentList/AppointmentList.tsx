@@ -18,6 +18,7 @@ function AppointmentList() {
   return (
     <>
       {activeAppointments.map((item) => {
+        // {...item} the way of sending props
         return <AppointmentItem {...item} key={item.id} />;
       })}
     </>
