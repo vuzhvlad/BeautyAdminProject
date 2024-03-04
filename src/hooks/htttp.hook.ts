@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 
 type HTTPRequestMethods = "GET" | "POST" | "PATCH" | "DELETE";
+export type LoadingStatusOptions = "idle" | "loading" | "error";
 export interface HTTPHeaders {
   // interface where you have infinity amount of string: string
   [key: string]: string;
@@ -16,8 +17,9 @@ interface RequestConfig {
 }
 
 export const useHttp = () => {
-  const [loadingStatus, setLoadingStatus] = useState<string>("idle"); // <string> says that it should be always string
-  //const [error, setError] = useState<string | null>(null); // we put null here because null was not caught yet, and we need to use generic here to set to string as well when we have an error
+  const [loadingStatus, setLoadingStatus] =
+    useState<LoadingStatusOptions>("idle"); // <string> says that it should be always string
+  // const [error, setError] = useState<string | null>(null); // we put null here because null was not caught yet, and we need to use generic here to set to string as well when we have an error
 
   const request = useCallback(
     async ({
@@ -29,6 +31,7 @@ export const useHttp = () => {
       setLoadingStatus("loading");
 
       try {
+        setLoadingStatus("loading");
         const response = await fetch(url, { method, body, headers });
 
         if (!response.ok) {

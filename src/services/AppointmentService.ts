@@ -30,7 +30,7 @@ const useAppointmentService = () => {
     const base = await getAllAppointments();
     const transformed: IActiveAppointment[] = base
       .filter((item) => {
-        return !item.canceled && dayjs(item.date).diff(undefined, "minute") > 0;
+        return !item.canceled && dayjs(item.date).diff(undefined, "minute") > 0; // filter by if date is already in past
       })
       .map((item) => {
         // removing canceled

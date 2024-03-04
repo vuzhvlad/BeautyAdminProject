@@ -1,20 +1,21 @@
 import React, { createContext, useReducer } from "react";
-import reducer, { IInitialState } from "./reducer";
+import reducer, { IAppointmentState } from "./reducer";
 
 import useAppointmentService from "../../services/AppointmentService";
 
 import { ActionsTypes } from "./actions";
 
-const initialState: IInitialState = {
+const initialState: IAppointmentState = {
   allAppointments: [],
   activeAppointments: [],
+  appointmentLoadingStatus: "idle",
 };
 
 interface ProviderProps {
   children: React.ReactNode;
 }
 
-interface AppointmentContextValue extends IInitialState {
+interface AppointmentContextValue extends IAppointmentState {
   // special type for context
   getAppointments: () => void; // nothing to return so it is void
   getActiveAppointments: () => void;
@@ -24,6 +25,7 @@ export const AppointmentContext = createContext<AppointmentContextValue>({
   // creating the initial state of context which will be overwritten by provider
   allAppointments: initialState.allAppointments, // we take our type from initialState
   activeAppointments: initialState.activeAppointments, // so when it changes it will show us mistake
+  appointmentLoadingStatus: initialState.appointmentLoadingStatus,
   getAppointments: () => {},
   getActiveAppointments: () => {},
 });
@@ -37,6 +39,7 @@ const AppointmentContextProvider = ({ children }: ProviderProps) => {
     // it should be the same type as context
     allAppointments: state.allAppointments,
     activeAppointments: state.activeAppointments,
+    appointmentLoadingStatus: loadingStatus,
     getAppointments: () => {
       getAllAppointments().then(
         (
