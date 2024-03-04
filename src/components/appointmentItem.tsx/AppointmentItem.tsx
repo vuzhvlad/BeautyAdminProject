@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-
 import "./appointmentItem.scss";
-
 import dayjs from "dayjs";
+import { Optional } from "utility-types";
+import { IAppointment } from "../../shared/interfaces/appointment.interface";
 
-import { IActiveAppointment } from "../../shared/interfaces/appointment.interface";
+// type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>; // choose one key from I and make it optional and then & with this interface where that key from I is removed
+
+type AppointmentProps = Optional<IAppointment, "canceled">;
 
 function AppointmentItem({
   id,
@@ -12,7 +14,8 @@ function AppointmentItem({
   date,
   service,
   phone,
-}: IActiveAppointment) {
+  canceled,
+}: AppointmentProps) {
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
 
   useEffect(() => {
@@ -45,12 +48,16 @@ function AppointmentItem({
         <span className="appointment__service">Service: {service}</span>
         <span className="appointment__phone">Phone: {phone}</span>
       </div>
-      <div className="appointment__time">
-        <span>Time left:</span>
-        <span className="appointment__timer">{timeLeft}</span>
-      </div>
-      <button className="appointment__cancel">Cancel</button>
-      {/* <div className="appointment__canceled">Canceled</div> */}
+      {!canceled ? (
+        <>
+          <div className="appointment__time">
+            <span>Time left:</span>
+            <span className="appointment__timer">{timeLeft}</span>
+          </div>
+          <button className="appointment__cancel">Cancel</button>
+        </>
+      ) : null}
+      {canceled ? <div className="appointment__canceled">Canceled</div> : null}
     </div>
   );
 }
