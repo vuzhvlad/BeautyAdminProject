@@ -10,7 +10,7 @@ function createWrapperAndAppendToBody(wrapperId: string) {
   // function that creates a wrapper for our element
   const wrapperElement = document.createElement("div");
   wrapperElement.setAttribute("id", wrapperId);
-  wrapperElement.setAttribute("class", "modal");
+  // wrapperElement.setAttribute("class", "modal");
   document.body.append(wrapperElement);
 
   return wrapperElement;
@@ -22,7 +22,7 @@ function Portal({ children, wrapperId = "portal-wrapper" }: PortalProps) {
   );
 
   useLayoutEffect(() => {
-    // hook for creating layout
+    // hook for creating layout, it works before the browser drew everything
     let element = document.getElementById(wrapperId);
     let created = false;
 
@@ -45,3 +45,5 @@ function Portal({ children, wrapperId = "portal-wrapper" }: PortalProps) {
 
   return createPortal(children, wrapperElement);
 }
+
+export default Portal;
