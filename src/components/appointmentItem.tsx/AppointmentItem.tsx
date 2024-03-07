@@ -8,9 +8,12 @@ import { IAppointment } from "../../shared/interfaces/appointment.interface";
 
 type AppointmentProps = Optional<IAppointment, "canceled"> & {
   openModal: (id: number) => void;
+  getActiveAppointments?: () => void;
 };
 
 const AppointmentItem = memo(
+  // putting this component into memo so if props dont change it doesnt have ot rerender
+  //every item is memorized and doesnt rerender if it is not needed
   ({
     id,
     name,
@@ -19,6 +22,7 @@ const AppointmentItem = memo(
     phone,
     canceled,
     openModal,
+    getActiveAppointments,
   }: AppointmentProps) => {
     const [timeLeft, setTimeLeft] = useState<string | null>(null);
 
@@ -26,21 +30,25 @@ const AppointmentItem = memo(
       // instead of undefined there will be current date
       setTimeLeft(
         `${dayjs(date).diff(undefined, "h")}:${
-          dayjs(date).diff(undefined, "h") % 60
+          dayjs(date).diff(undefined, "m") % 60
         }`
       );
 
       const intervalId = setInterval(() => {
-        setTimeLeft(
-          `${dayjs(date).diff(undefined, "h")}:${
-            dayjs(date).diff(undefined, "h") % 60
-          }`
-        );
+        if (dayjs(date).diff(undefined, "m") <= 0) {
+          // if time is less or equals to 0
+          if (getActiveAppointments) {
+            getActiveAppointments(); // we get active appointments again so time wont go below zero
+          }
+          clearInterval(intervalId);
+        } else {
+          setTimeLeft(
+            `${dayjs(date).diff(undefined, "h")}:${
+              dayjs(date).diff(undefined, "m") % 60
+            }`
+          );
+        }
       }, 60000);
-
-      return () => {
-        clearInterval(intervalId);
-      }; // to remove this interval every time useEffect is called
     }, [date]);
 
     const formattedDate = dayjs(date).format("DD/MM/YYYY HH:mm"); // formating date by using dayjs

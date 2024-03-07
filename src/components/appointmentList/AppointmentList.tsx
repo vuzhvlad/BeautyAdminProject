@@ -22,6 +22,7 @@ function AppointmentList() {
   console.log(appointmentLoadingStatus);
 
   const handleOpenModal = useCallback((id: number) => {
+    // creating callback and combining two actions
     setIsOpen(true);
     setSelectedId(id);
   }, []);
@@ -48,6 +49,7 @@ function AppointmentList() {
             {...item}
             key={item.id}
             openModal={handleOpenModal}
+            getActiveAppointments={getActiveAppointments}
           />
         );
       })}

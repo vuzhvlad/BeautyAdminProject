@@ -46,10 +46,19 @@ const useAppointmentService = () => {
     return transformed;
   };
 
+  const cancelOneAppointment = async (id: number) => {
+    return await request({
+      url: `${_apiBase}/${id}`, // here getting appointment by id
+      method: "PATCH",
+      body: JSON.stringify({ canceled: true }), // here we just patch(change) part of our appointment where we put cancel to true
+    });
+  };
+
   return {
     loadingStatus,
     getAllAppointments,
     getAllActiveAppointments,
+    cancelOneAppointment,
   };
 };
 
