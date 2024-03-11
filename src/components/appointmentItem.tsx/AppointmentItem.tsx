@@ -7,7 +7,7 @@ import { IAppointment } from "../../shared/interfaces/appointment.interface";
 // type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>; // choose one key from I and make it optional and then & with this interface where that key from I is removed
 
 type AppointmentProps = Optional<IAppointment, "canceled"> & {
-  openModal: (id: number) => void;
+  openModal?: (id: number) => void;
   getActiveAppointments?: () => void;
 };
 
@@ -60,7 +60,7 @@ const AppointmentItem = memo(
           <span className="appointment__service">Service: {service}</span>
           <span className="appointment__phone">Phone: {phone}</span>
         </div>
-        {!canceled ? (
+        {!canceled && openModal ? (
           <>
             <div className="appointment__time">
               <span>Time left:</span>
@@ -69,7 +69,9 @@ const AppointmentItem = memo(
             <button
               className="appointment__cancel"
               onClick={() => {
-                openModal(id);
+                if (openModal) {
+                  openModal(id);
+                }
               }}
             >
               Cancel

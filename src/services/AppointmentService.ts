@@ -23,7 +23,10 @@ const useAppointmentService = () => {
     if (
       res.every((item: IAppointment) => hasRequiredFields(item, requiredFields)) // checking every obj we will get in our response array
     ) {
-      return res;
+      return res.sort(function (a: IAppointment, b: IAppointment) {
+        // sorting res by newest date
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      });
     } else {
       throw new Error("Data doesnt have all the fields");
     }
