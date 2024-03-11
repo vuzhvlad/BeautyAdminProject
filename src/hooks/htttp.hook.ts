@@ -31,7 +31,6 @@ export const useHttp = () => {
       setLoadingStatus("loading");
 
       try {
-        setLoadingStatus("loading");
         const response = await fetch(url, { method, body, headers });
 
         if (!response.ok) {

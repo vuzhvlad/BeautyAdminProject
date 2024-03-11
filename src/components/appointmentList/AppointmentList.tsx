@@ -4,6 +4,7 @@ import AppointmentItem from "../appointmentItem.tsx/AppointmentItem";
 import Spinner from "../spinner/Spinner";
 import Error from "../error/Error";
 import CancelModal from "../modal/CancelModal";
+
 import { AppointmentContext } from "../../context/appointments/AppointmentsContext";
 
 function AppointmentList() {
@@ -14,17 +15,15 @@ function AppointmentList() {
   } = useContext(AppointmentContext);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState(0);
+  const [selectedId, selectId] = useState(0);
 
   useEffect(() => {
     getActiveAppointments();
   }, []);
-  console.log(appointmentLoadingStatus);
 
   const handleOpenModal = useCallback((id: number) => {
-    // creating callback and combining two actions
     setIsOpen(true);
-    setSelectedId(id);
+    selectId(id);
   }, []);
 
   if (appointmentLoadingStatus === "loading") {
@@ -34,7 +33,7 @@ function AppointmentList() {
       <>
         <Error />
         <button className="schedule__reload" onClick={getActiveAppointments}>
-          Reload data
+          Try to reload
         </button>
       </>
     );
@@ -43,7 +42,6 @@ function AppointmentList() {
   return (
     <>
       {activeAppointments.map((item) => {
-        // {...item} the way of sending props
         return (
           <AppointmentItem
             {...item}

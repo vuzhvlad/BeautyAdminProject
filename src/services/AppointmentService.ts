@@ -1,11 +1,14 @@
 import { useHttp } from "../hooks/htttp.hook";
 import hasRequiredFields from "../utils/hasRequiredFields";
 import dayjs from "dayjs";
+import CustomParseFormat from "dayjs/plugin/customParseFormat";
 
 import {
   IAppointment,
   IActiveAppointment,
 } from "../shared/interfaces/appointment.interface";
+
+dayjs.extend(CustomParseFormat); // extending plugin for dayjs library for working with format + stirng
 
 const requiredFields = ["id", "date", "name", "service", "phone", "canceled"]; // key fields to check
 
@@ -54,11 +57,26 @@ const useAppointmentService = () => {
     });
   };
 
+  const createNewAppointment = async (body: IAppointment) => {
+    const id = new Date().getTime(); // creating unique id
+    body["id"] = id;
+    body["date"] = dayjs(body.date, "DD/MM/YYYY HH:mm").format(
+      "YYYY-MM-DDTHH:mm"
+    ); // formatting data before it is sent
+
+    return await request({
+      url: _apiBase,
+      method: "POST",
+      body: JSON.stringify(body), // here we just post our appointment
+    });
+  };
+
   return {
     loadingStatus,
     getAllAppointments,
     getAllActiveAppointments,
     cancelOneAppointment,
+    createNewAppointment,
   };
 };
 
