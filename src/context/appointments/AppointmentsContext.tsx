@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from "react";
+import { Value } from "react-calendar/dist/cjs/shared/types";
 import reducer, { IAppointmentState } from "./reducer";
 
 import useAppointmentService from "../../services/AppointmentService";
@@ -9,6 +10,7 @@ const initialState: IAppointmentState = {
   allAppointments: [],
   activeAppointments: [],
   appointmentLoadingStatus: "idle",
+  calendarDate: [null, null],
 };
 
 interface ProviderProps {
@@ -19,6 +21,7 @@ interface AppointmentContextValue extends IAppointmentState {
   // special type for context
   getAppointments: () => void; // nothing to return so it is void
   getActiveAppointments: () => void;
+  setDateAndFilter: (newDate: Value) => void;
 }
 
 export const AppointmentContext = createContext<AppointmentContextValue>({
@@ -26,8 +29,10 @@ export const AppointmentContext = createContext<AppointmentContextValue>({
   allAppointments: initialState.allAppointments, // we take our type from initialState
   activeAppointments: initialState.activeAppointments, // so when it changes it will show us mistake
   appointmentLoadingStatus: initialState.appointmentLoadingStatus,
+  calendarDate: initialState.calendarDate,
   getAppointments: () => {},
   getActiveAppointments: () => {},
+  setDateAndFilter: (newDate: Value) => {},
 });
 
 const AppointmentContextProvider = ({ children }: ProviderProps) => {
@@ -40,6 +45,7 @@ const AppointmentContextProvider = ({ children }: ProviderProps) => {
     allAppointments: state.allAppointments,
     activeAppointments: state.activeAppointments,
     appointmentLoadingStatus: loadingStatus,
+    calendarDate: state.calendarDate,
     getAppointments: () => {
       getAllAppointments().then(
         (
@@ -52,6 +58,9 @@ const AppointmentContextProvider = ({ children }: ProviderProps) => {
       getAllActiveAppointments().then((data) => {
         dispatch({ type: ActionsTypes.SET_ACTIVE_APPOINTMENTS, payload: data });
       });
+    },
+    setDateAndFilter: (newDate: Value) => {
+      dispatch({ type: ActionsTypes.SET_CALENDAR_DATE, payload: newDate });
     },
   };
   // it will work on the components that are inside of the context and you can use methods that are inside of the value
