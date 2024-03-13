@@ -12,6 +12,7 @@ function AppointmentList() {
     activeAppointments,
     getActiveAppointments,
     appointmentLoadingStatus,
+    calendarDate,
   } = useContext(AppointmentContext);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ function AppointmentList() {
 
   useEffect(() => {
     getActiveAppointments();
-  }, []);
+  }, [calendarDate]);
 
   const handleOpenModal = useCallback((id: number) => {
     setIsOpen(true);
@@ -31,7 +32,7 @@ function AppointmentList() {
   } else if (appointmentLoadingStatus === "error") {
     return (
       <>
-        <Error msg={'123'}/>
+        <Error msg={"123"} />
         <button className="schedule__reload" onClick={getActiveAppointments}>
           Try to reload
         </button>

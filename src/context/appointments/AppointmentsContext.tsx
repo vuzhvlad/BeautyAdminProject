@@ -47,17 +47,77 @@ const AppointmentContextProvider = ({ children }: ProviderProps) => {
     appointmentLoadingStatus: loadingStatus,
     calendarDate: state.calendarDate,
     getAppointments: () => {
-      getAllAppointments().then(
-        (
-          data // we get our date with service
-        ) =>
-          dispatch({ type: ActionsTypes.SET_ALL_APPOINTMENTS, payload: data }) // this will trigger a reducer and it will use the right case for it
-      ); // dispatch takes these data to the state, so as payload it will take data
+      getAllAppointments()
+        .then(
+          (
+            data // we get our date with service
+          ) => {
+            const filteredData = data.filter((item) => {
+              if (
+                Array.isArray(state.calendarDate) &&
+                state.calendarDate[0] &&
+                state.calendarDate[1]
+              ) {
+                // checking if it is array and then if it is not null
+                if (
+                  // if it is inside of our range filter
+                  new Date(item.date).getTime() >=
+                    new Date(state.calendarDate[0]).getTime() &&
+                  new Date(item.date).getTime() <=
+                    new Date(state.calendarDate[1]).getTime()
+                ) {
+                  return item;
+                }
+              } else {
+                return item; // if filters are null we just stop it
+              }
+            });
+            dispatch({
+              type: ActionsTypes.SET_ALL_APPOINTMENTS,
+              payload: filteredData,
+            }); // this will trigger a reducer and it will use the right case for it
+          }
+        )
+        .catch(() => {
+          dispatch({
+            type: ActionsTypes.ERROR_FETCHING_APPOINTMENTS,
+          }); // dispatch takes these data to the state, so as payload it will take data
+        });
     },
     getActiveAppointments: () => {
-      getAllActiveAppointments().then((data) => {
-        dispatch({ type: ActionsTypes.SET_ACTIVE_APPOINTMENTS, payload: data });
-      });
+      getAllActiveAppointments()
+        .then((data) => {
+          const filteredData = data.filter((item) => {
+            if (
+              Array.isArray(state.calendarDate) &&
+              state.calendarDate[0] &&
+              state.calendarDate[1]
+            ) {
+              // checking if it is array and then if it is not null
+              if (
+                // if it is inside of our range filter
+                new Date(item.date).getTime() >=
+                  new Date(state.calendarDate[0]).getTime() &&
+                new Date(item.date).getTime() <=
+                  new Date(state.calendarDate[1]).getTime()
+              ) {
+                return item;
+              }
+            } else {
+              return item; // if filters are null we just stop it
+            }
+          });
+
+          dispatch({
+            type: ActionsTypes.SET_ACTIVE_APPOINTMENTS,
+            payload: filteredData,
+          });
+        })
+        .catch(() => {
+          dispatch({
+            type: ActionsTypes.ERROR_FETCHING_APPOINTMENTS,
+          });
+        });
     },
     setDateAndFilter: (newDate: Value) => {
       dispatch({ type: ActionsTypes.SET_CALENDAR_DATE, payload: newDate });

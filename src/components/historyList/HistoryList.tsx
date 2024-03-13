@@ -5,12 +5,16 @@ import Spinner from "../spinner/Spinner";
 import Error from "../error/Error";
 
 function HistoryList() {
-  const { allAppointments, getAppointments, appointmentLoadingStatus } =
-    useContext(AppointmentContext);
+  const {
+    allAppointments,
+    getAppointments,
+    appointmentLoadingStatus,
+    calendarDate,
+  } = useContext(AppointmentContext);
 
   useEffect(() => {
     getAppointments();
-  }, []);
+  }, [calendarDate]);
 
   if (appointmentLoadingStatus === "loading") {
     return <Spinner />;

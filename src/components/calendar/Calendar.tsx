@@ -11,13 +11,17 @@ type ValuePiece = Date | null;
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 function Calendar() {
-  const { calendarDate, setDateAndFilter } = useContext(AppointmentContext);
+  const { calendarDate, setDateAndFilter, getActiveAppointments } =
+    useContext(AppointmentContext);
 
   return (
     <div className="calendar">
       <LibCalendar
         value={calendarDate}
-        onChange={(value) => setDateAndFilter(value)}
+        onChange={(value) => {
+          setDateAndFilter(value);
+          getActiveAppointments();
+        }}
         selectRange
       />
     </div>
