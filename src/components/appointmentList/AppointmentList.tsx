@@ -31,7 +31,7 @@ function AppointmentList() {
   } else if (appointmentLoadingStatus === "error") {
     return (
       <>
-        <Error />
+        <Error msg={'123'}/>
         <button className="schedule__reload" onClick={getActiveAppointments}>
           Try to reload
         </button>

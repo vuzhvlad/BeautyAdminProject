@@ -14,7 +14,7 @@
       "name": "Sam Smith",
       "service": "Pedicure",
       "phone": "+1 746 235 890",
-      "canceled": true
+      "canceled": false
     },
     {
       "id": "3",
@@ -30,7 +30,7 @@
       "name": "Kim Paul",
       "service": "Cleaning",
       "phone": "+1 928 345 356",
-      "canceled": true
+      "canceled": false
     },
     {
       "id": "5",
@@ -38,7 +38,7 @@
       "name": "Innes Olaf",
       "service": "Haircut",
       "phone": "+1 458 895 888",
-      "canceled": true
+      "canceled": false
     },
     {
       "id": "6",
@@ -62,7 +62,7 @@
       "service": "123",
       "phone": "+1 804 944 567",
       "date": "2024-11-11T11:11",
-      "canceled": true
+      "canceled": false
     }
   ]
 }
