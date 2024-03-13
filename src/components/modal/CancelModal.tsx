@@ -7,7 +7,7 @@ import "./modal.scss";
 
 interface IModalProps {
   handleClose: (state: boolean) => void;
-  selectedId: number;
+  selectedId: string;
   isOpen: boolean;
 }
 
@@ -21,7 +21,7 @@ function CancelModal({ handleClose, selectedId, isOpen }: IModalProps) {
   const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
   const [cancelStatus, setCancelStatus] = useState<boolean | null>(null);
 
-  const handleCancelAppointment = (id: number) => {
+  const handleCancelAppointment = (id: string) => {
     setButtonDisabled(true); // disable button so user can press more than once
     cancelOneAppointment(id)
       .then(() => {

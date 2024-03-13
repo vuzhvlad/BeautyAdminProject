@@ -14,7 +14,7 @@ function CAForm() {
     phone: "",
     date: "",
     canceled: false,
-    id: 1,
+    id: "1",
   });
 
   const [creationStatus, setCreationStatus] = useState<boolean>(false); // for disabling button
@@ -33,7 +33,7 @@ function CAForm() {
           phone: "",
           date: "",
           canceled: false,
-          id: 1,
+          id: "1",
         });
         getActiveAppointments();
       })

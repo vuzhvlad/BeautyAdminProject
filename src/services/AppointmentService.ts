@@ -52,7 +52,7 @@ const useAppointmentService = () => {
     return transformed;
   };
 
-  const cancelOneAppointment = async (id: number) => {
+  const cancelOneAppointment = async (id: string) => {
     return await request({
       url: `${_apiBase}/${id}`, // here getting appointment by id
       method: "PATCH",
@@ -62,7 +62,7 @@ const useAppointmentService = () => {
 
   const createNewAppointment = async (body: IAppointment) => {
     const id = new Date().getTime(); // creating unique id
-    body["id"] = id;
+    body["id"] = `${id}`;
     body["date"] = dayjs(body.date, "DD/MM/YYYY HH:mm").format(
       "YYYY-MM-DDTHH:mm"
     ); // formatting data before it is sent

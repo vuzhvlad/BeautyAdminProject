@@ -16,13 +16,13 @@ function AppointmentList() {
   } = useContext(AppointmentContext);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedId, selectId] = useState(0);
+  const [selectedId, selectId] = useState("0");
 
   useEffect(() => {
     getActiveAppointments();
   }, [calendarDate]);
 
-  const handleOpenModal = useCallback((id: number) => {
+  const handleOpenModal = useCallback((id: string) => {
     setIsOpen(true);
     selectId(id);
   }, []);

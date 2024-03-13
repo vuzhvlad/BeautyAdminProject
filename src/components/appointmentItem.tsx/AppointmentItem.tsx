@@ -7,7 +7,7 @@ import { IAppointment } from "../../shared/interfaces/appointment.interface";
 // type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>; // choose one key from I and make it optional and then & with this interface where that key from I is removed
 
 type AppointmentProps = Optional<IAppointment, "canceled"> & {
-  openModal?: (id: number) => void;
+  openModal?: (id: string) => void;
   getActiveAppointments?: () => void;
 };
 

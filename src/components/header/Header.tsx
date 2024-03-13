@@ -1,8 +1,12 @@
 import { NavLink, Link } from "react-router-dom";
+import { useContext } from "react";
+import { AppointmentContext } from "../../context/appointments/AppointmentsContext";
 
 import "./header.scss";
 
 function Header() {
+  const { setDateAndFilter } = useContext(AppointmentContext);
+
   return (
     <header className="header">
       <Link to="/" className="logo">
